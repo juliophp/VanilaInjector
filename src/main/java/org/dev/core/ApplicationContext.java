@@ -38,7 +38,6 @@ public class ApplicationContext {
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
         if (constructors.length == 0) throw new IllegalStateException("No constructor found for " + clazz);
-
         return constructors[0];
     }
 }
