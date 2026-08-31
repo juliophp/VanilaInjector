@@ -52,13 +52,6 @@ Flyten ved oppstart:
 </dependency>
 ```
 
-### Kjøre eksempelet
-
-```bash
-mvn clean install
-mvn exec:java -Dexec.mainClass="no.dittapp.Main"
-```
-
 ## Eksempel på bruk
 
 ```java
