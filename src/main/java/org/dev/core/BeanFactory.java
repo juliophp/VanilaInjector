@@ -22,21 +22,23 @@ public class BeanFactory {
         //return running instance if it already exists
         if (definition.getInstance() != null) return definition.getInstance();
 
+
         //add beanClass to underConstruction and throw CircularException if it already exists
         if (underConstruction.contains(beanClass)) throw new IllegalStateException("Bean has already been instantiated");
+        underConstruction.add(beanClass);
 
         //run getBean recursively on each of the dependencies of the bean
         Object[] args = definition.getDependencies().stream().map(this::getBean).toArray();
 
-        Object newInstanceFromConstructorWithDependencies = null;
+        Object newInstanceFromConstructorWithDependencies;
         try {
             newInstanceFromConstructorWithDependencies = definition.getConstructor().newInstance(args);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-        underConstruction.remove(beanClass);
         definition.setInstance(newInstanceFromConstructorWithDependencies);
-        return definition;
+        underConstruction.remove(beanClass);
+        return newInstanceFromConstructorWithDependencies;
     }
 
 
